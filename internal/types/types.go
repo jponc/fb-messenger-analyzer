@@ -2,26 +2,29 @@ package types
 
 import "time"
 
-type CallRecord struct {
-	StartTime time.Time
-	EndTime   time.Time
-	Sender    string
-	Duration  time.Duration
-}
-
 type FBParticipant struct {
 	Name string `json:"name"`
 }
 
-type FBMessageCall struct {
-	Type         string `json:"type"`
-	SenderName   string `json:"sender_name"`
-	CallDuration string `json:"call_duration"`
-	TimestampMS  int    `json:"timestamp_ms"`
-	Content      string `json:"content"`
+type FBMessage struct {
+	TimestampMS         int `json:"timestamp_ms"`
+	CallDurationSeconds int `json:"call_duration,omitempty"`
 }
 
-type FBData struct {
+type FBFileData struct {
 	Participants []FBParticipant `json:"participants"`
-	MessageCalls []FBMessageCall `json:"messages"`
+	Messages     []FBMessage
+}
+
+type CallRecord struct {
+	StartMS         int
+	EndMS           int
+	DurationSeconds int
+}
+
+type CSVRow struct {
+	StartTime       time.Time `csv:"start_time"`
+	EndTime         time.Time `csv:"end_time"`
+	DurationSeconds int       `csv:"duration_seconds"`
+	DurationMinutes int       `csv:"duration_minutes"`
 }
